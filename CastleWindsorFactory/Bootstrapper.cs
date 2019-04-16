@@ -8,7 +8,7 @@ namespace CastleWindsorFactory
 {
     public class Bootstrapper
     {
-        public IWindsorContainer BootstrapperContainer()
+        public IWindsorContainer BootstrapContainer()
         {
             WindsorContainer kernel = new WindsorContainer();
             kernel.AddFacility<TypedFactoryFacility>();

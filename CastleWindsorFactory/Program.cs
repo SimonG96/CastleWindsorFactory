@@ -10,7 +10,7 @@ namespace CastleWindsorFactory
         static void Main(string[] args)
         {
             Bootstrapper bootstrapper = new Bootstrapper();
-            IWindsorContainer kernel = bootstrapper.BootstrapperContainer();
+            IWindsorContainer kernel = bootstrapper.BootstrapContainer();
 
             IFooFactory fooFactory = kernel.Resolve<IFooFactory>();
             IFoo foo = fooFactory.Create();
