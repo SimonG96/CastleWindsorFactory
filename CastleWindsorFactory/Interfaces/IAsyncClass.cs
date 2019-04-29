@@ -1,12 +1,3 @@
-﻿//  
-// Author: simon.gockner
-// Created: --
-// $HeadURL$
-// $Date$
-// $Id$
-// Copyright(c)  Buerkert GmbH&CoKG. All Rights Reserved.
-// 	
-
 using System.Threading.Tasks;
 
 namespace CastleWindsorFactory.Interfaces
