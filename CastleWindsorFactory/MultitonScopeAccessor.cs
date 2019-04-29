@@ -1,14 +1,4 @@
-﻿//  
-// Author: simon.gockner
-// Created: 2019-04-25
-// $HeadURL$
-// $Date$
-// $Id$
-// Copyright(c) 2019 Buerkert GmbH&CoKG. All Rights Reserved.
-// 	
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Castle.MicroKernel.Context;
