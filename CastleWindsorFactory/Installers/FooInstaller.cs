@@ -1,20 +1,18 @@
-﻿using Castle.Facilities.TypedFactory;
-using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
-using CastleWindsorFactory.Factories;
+﻿using CastleWindsorFactory.Factories;
 using CastleWindsorFactory.Interfaces;
+using DependencyInjector.Interfaces;
+using DependencyInjector.Registrations;
 
 namespace CastleWindsorFactory.Installers
 {
-    public class FooInstaller : IWindsorInstaller
+    public class FooInstaller : IInjectorInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IInjectorContainer container)
         {
-            container.Register(Component.For<IFoo>().ImplementedBy<Foo>().LifestyleTransient());
+            container.Register(RegistrationFactory.Register<IFoo, Foo>());
 
             //factories
-            container.Register(Component.For<IFooFactory>().AsFactory(f => f.SelectedWith<FactoryComponentSelector>()));
+            container.Register(RegistrationFactory.RegisterFactory<IFooFactory>());
         }
     }
 }
