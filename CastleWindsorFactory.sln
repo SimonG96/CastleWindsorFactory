@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleWindsorFactory", "Cas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CastleWindsorFactory", "Test.CastleWindsorFactory\Test.CastleWindsorFactory.csproj", "{880DCDB7-60E6-4E33-9956-842A5445B8C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjector", "DependencyInjector\DependencyInjector.csproj", "{6AE744E2-FD4F-48EE-85AE-8E804E2567E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{880DCDB7-60E6-4E33-9956-842A5445B8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{880DCDB7-60E6-4E33-9956-842A5445B8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{880DCDB7-60E6-4E33-9956-842A5445B8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AE744E2-FD4F-48EE-85AE-8E804E2567E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE744E2-FD4F-48EE-85AE-8E804E2567E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE744E2-FD4F-48EE-85AE-8E804E2567E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE744E2-FD4F-48EE-85AE-8E804E2567E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

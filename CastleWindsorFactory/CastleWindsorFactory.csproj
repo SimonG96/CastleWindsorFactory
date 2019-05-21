@@ -60,7 +60,6 @@
     <Compile Include="Bar.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Factories\IFooFactory.cs" />
-    <Compile Include="FactoryComponentSelector.cs" />
     <Compile Include="Foo.cs" />
     <Compile Include="Factories\IBarFactory.cs" />
     <Compile Include="Factories\IAsyncClassFactory.cs" />
@@ -79,6 +78,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DependencyInjector\DependencyInjector.csproj">
+      <Project>{6ae744e2-fd4f-48ee-85ae-8e804e2567e8}</Project>
+      <Name>DependencyInjector</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
-using Castle.Windsor;
 using CastleWindsorFactory.Factories;
 using CastleWindsorFactory.Interfaces;
+using DependencyInjector.Interfaces;
 
 namespace CastleWindsorFactory
 {
@@ -10,7 +10,10 @@ namespace CastleWindsorFactory
         static void Main(string[] args)
         {
             Bootstrapper bootstrapper = new Bootstrapper();
-            IWindsorContainer kernel = bootstrapper.BootstrapContainer();
+            IInjectorContainer kernel = bootstrapper.BootstrapContainer();
+
+            IService service = kernel.Resolve<IService>();
+            IBar bar = kernel.Resolve<IBar>();
 
             IFooFactory fooFactory = kernel.Resolve<IFooFactory>();
             IFoo foo = fooFactory.Create();
