@@ -13,7 +13,7 @@ namespace CastleWindsorFactory
             IInjectorContainer kernel = bootstrapper.BootstrapContainer();
 
             IService service = kernel.Resolve<IService>();
-            IBar bar = kernel.Resolve<IBar>();
+            IBar bar = kernel.Resolve<IBar>("test", service);
 
             IFooFactory fooFactory = kernel.Resolve<IFooFactory>();
             IFoo foo = fooFactory.Create();

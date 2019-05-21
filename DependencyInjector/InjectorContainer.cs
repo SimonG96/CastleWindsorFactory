@@ -47,17 +47,30 @@ namespace DependencyInjector
         /// <returns>An instance of the given type</returns>
         public T Resolve<T>()
         {
-            return ResolveInternal<T>();
+            return ResolveInternal<T>(null);
         }
-        
+
+        /// <summary>
+        /// Gets an instance of the given type
+        /// </summary>
+        /// <typeparam name="T">The given type</typeparam>
+        /// <param name="arguments">The constructor arguments</param>
+        /// <returns>An instance of the given type</returns>
+        public T Resolve<T>(params object[] arguments)
+        {
+            return ResolveInternal<T>(arguments);
+        }
+
+
         /// <summary>
         /// Gets an instance of a given registered type
         /// </summary>
         /// <typeparam name="T">The registered type</typeparam>
+        /// <param name="arguments">The constructor arguments</param>
         /// <returns>An instance of the given registered type</returns>
         /// <exception cref="TypeNotRegisteredException">The given type is not registered in this <see cref="InjectorContainer"/></exception>
         /// <exception cref="UnknownRegistrationException">The registration for the given type has an unknown type</exception>
-        private T ResolveInternal<T>()
+        private T ResolveInternal<T>(params object[] arguments)
         {
             IRegistrationBase registration = _registrations.FirstOrDefault(r => r.InterfaceType == typeof(T));
             if (registration == null)
@@ -66,9 +79,9 @@ namespace DependencyInjector
             if (registration is IDefaultRegistration defaultRegistration)
             {
                 if (defaultRegistration.Lifestyle == Lifestyle.Singleton)
-                    return GetOrCreateSingletonInstance<T>(defaultRegistration);
+                    return GetOrCreateSingletonInstance<T>(defaultRegistration, arguments);
 
-                return CreateInstance<T>(defaultRegistration);
+                return CreateInstance<T>(defaultRegistration, arguments);
             }
             else if (registration is ITypedFactoryRegistration<T> typedFactoryRegistration)
             {
@@ -83,8 +96,9 @@ namespace DependencyInjector
         /// </summary>
         /// <typeparam name="T">The given type</typeparam>
         /// <param name="registration">The registration of the given type</param>
+        /// <param name="arguments">The constructor arguments</param>
         /// <returns>An existing or newly created singleton instance of the given type</returns>
-        private T GetOrCreateSingletonInstance<T>(IDefaultRegistration registration)
+        private T GetOrCreateSingletonInstance<T>(IDefaultRegistration registration, params object[] arguments)
         {
             //if a singleton instance exists return it
             object instance = _singletons.FirstOrDefault(s => s.type == typeof(T)).instance;
@@ -92,7 +106,7 @@ namespace DependencyInjector
                 return (T) instance;
 
             //if it doesn't already exist create a new instance and add it to the list
-            T newInstance = CreateInstance<T>(registration);
+            T newInstance = CreateInstance<T>(registration, arguments);
             _singletons.Add((typeof(T), newInstance));
 
             return newInstance;
@@ -103,10 +117,11 @@ namespace DependencyInjector
         /// </summary>
         /// <typeparam name="T">The given type</typeparam>
         /// <param name="registration">The registration of the given type</param>
+        /// <param name="arguments">The constructor arguments</param>
         /// <returns>A newly created instance of the given type</returns>
-        private T CreateInstance<T>(IDefaultRegistration registration)
+        private T CreateInstance<T>(IDefaultRegistration registration, params object[] arguments)
         {
-            return (T) Activator.CreateInstance(registration.ImplementationType);
+            return (T) Activator.CreateInstance(registration.ImplementationType, arguments);
         }
         
         public void Dispose()
