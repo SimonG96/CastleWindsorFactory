@@ -126,7 +126,8 @@ namespace DependencyInjector
         
         public void Dispose()
         {
-
+            _registrations.Clear();
+            _singletons.Clear();
         }
     }
 }
