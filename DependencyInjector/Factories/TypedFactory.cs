@@ -8,8 +8,6 @@ namespace DependencyInjector.Factories
 {
     public class TypedFactory<TFactory> : ITypedFactory<TFactory>
     {
-
-
-        public TFactory Factory { get; }
+        public TFactory Factory { get; set; }
     }
 }

@@ -3,7 +3,6 @@
 // Copyright(c) 2019 SimonG. All Rights Reserved.
 
 using System;
-using System.Collections.Generic;
 using DependencyInjector.Interfaces.Registrations;
 
 namespace DependencyInjector.Interfaces
@@ -37,5 +36,13 @@ namespace DependencyInjector.Interfaces
         /// <param name="arguments">The constructor arguments</param>
         /// <returns>An instance of the given type</returns>
         T Resolve<T>(params object[] arguments);
+
+        /// <summary>
+        /// Gets an instance of the given type
+        /// </summary>
+        /// <param name="arguments">The constructor arguments</param>
+        /// <param name="type">The given type</param>
+        /// <returns>An instance of the given type</returns>
+        object Resolve(object[] arguments, Type type);
     }
 }

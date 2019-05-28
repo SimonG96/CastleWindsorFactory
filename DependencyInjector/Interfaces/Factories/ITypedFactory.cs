@@ -6,6 +6,6 @@ namespace DependencyInjector.Interfaces.Factories
 {
     public interface ITypedFactory<TFactory>
     {
-        TFactory Factory { get; }
+        TFactory Factory { get; set; }
     }
 }

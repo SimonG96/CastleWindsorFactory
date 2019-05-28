@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using DependencyInjector.Exceptions;
 using DependencyInjector.Interfaces;
 using DependencyInjector.Interfaces.Registrations;
@@ -58,9 +59,26 @@ namespace DependencyInjector
         /// <returns>An instance of the given type</returns>
         public T Resolve<T>(params object[] arguments)
         {
-            return ResolveInternal<T>(arguments);
+            return ResolveInternal<T>(arguments.ToList());
         }
 
+        /// <summary>
+        /// Gets an instance of the given type
+        /// </summary>
+        /// <param name="arguments">The constructor arguments</param>
+        /// <param name="type">The given type</param>
+        /// <returns>An instance of the given type</returns>
+        /// <exception cref="InternalResolveException">Could not find function <see cref="ResolveInternal{T}"/></exception>
+        public object Resolve(object[] arguments, Type type)
+        {
+            var resolveMethod = typeof(InjectorContainer).GetMethod(nameof(ResolveInternal), BindingFlags.NonPublic | BindingFlags.Instance);
+            var genericResolveMethod = resolveMethod?.MakeGenericMethod(type);
+
+            if (genericResolveMethod == null)
+                throw new InternalResolveException($"Could not find function {nameof(ResolveInternal)}");
+
+            return genericResolveMethod.Invoke(this, new object[] {arguments});
+        }
 
         /// <summary>
         /// Gets an instance of a given registered type
@@ -76,7 +94,7 @@ namespace DependencyInjector
             if (registration == null)
                 throw new TypeNotRegisteredException(typeof(T));
 
-            if (registration is IDefaultRegistration defaultRegistration)
+            if (registration is IDefaultRegistration<T> defaultRegistration)
             {
                 if (defaultRegistration.Lifestyle == Lifestyle.Singleton)
                     return GetOrCreateSingletonInstance<T>(defaultRegistration, arguments);
@@ -98,7 +116,7 @@ namespace DependencyInjector
         /// <param name="registration">The registration of the given type</param>
         /// <param name="arguments">The constructor arguments</param>
         /// <returns>An existing or newly created singleton instance of the given type</returns>
-        private T GetOrCreateSingletonInstance<T>(IDefaultRegistration registration, params object[] arguments)
+        private T GetOrCreateSingletonInstance<T>(IDefaultRegistration<T> registration, params object[] arguments)
         {
             //if a singleton instance exists return it
             object instance = _singletons.FirstOrDefault(s => s.type == typeof(T)).instance;
@@ -119,9 +137,61 @@ namespace DependencyInjector
         /// <param name="registration">The registration of the given type</param>
         /// <param name="arguments">The constructor arguments</param>
         /// <returns>A newly created instance of the given type</returns>
-        private T CreateInstance<T>(IDefaultRegistration registration, params object[] arguments)
+        private T CreateInstance<T>(IDefaultRegistration<T> registration, params object[] arguments)
         {
-            return (T) Activator.CreateInstance(registration.ImplementationType, arguments);
+            arguments = ResolveConstructorArguments(registration.ImplementationType, arguments);
+            T instance = (T) Activator.CreateInstance(registration.ImplementationType, arguments);
+            registration.OnCreateAction?.Invoke(instance); //TODO: Allow async OnCreateAction?
+
+            return instance;
+        }
+
+        /// <summary>
+        /// Resolve the missing constructor arguments
+        /// </summary>
+        /// <param name="type">The type that will be created</param>
+        /// <param name="arguments">The existing arguments</param>
+        /// <returns>An array of all needed constructor arguments to create <param name="type"></param></returns>
+        private object[] ResolveConstructorArguments(Type type, object[] arguments)
+        {
+            //find best ctor
+            var sortedCtors = type.GetConstructors().OrderByDescending(c => c.GetParameters().Length);
+            foreach (var ctor in sortedCtors)
+            {
+                try
+                {
+                    List<object> argumentsList = arguments?.ToList();
+                    List<object> ctorParams = new List<object>();
+
+                    var parameters = ctor.GetParameters();
+                    foreach (var parameter in parameters)
+                    {
+                        object fittingArgument = null;
+                        if (argumentsList != null)
+                        {
+                            fittingArgument = argumentsList.FirstOrDefault(a => a?.GetType() == parameter.ParameterType);
+                            if (fittingArgument != null)
+                            {
+                                int index = argumentsList.IndexOf(fittingArgument);
+                                argumentsList[index] = null;
+                            }
+                        }
+
+                        if (fittingArgument == null)
+                            ctorParams.Add(Resolve(null, parameter.ParameterType));
+                        else
+                            ctorParams.Add(fittingArgument);
+                    }
+
+                    return ctorParams.ToArray();
+                }
+                catch (Exception ex) //TODO: Decide what exactly to do in this case
+                {
+                    continue;
+                }
+            }
+            
+            return null;
         }
         
         public void Dispose()
