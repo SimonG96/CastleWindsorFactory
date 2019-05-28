@@ -14,7 +14,7 @@ namespace CastleWindsorFactory.Installers
             container.Register(RegistrationFactory.Register<IService, Service>(Lifestyle.Singleton));
 
             //factories
-            container.Register(RegistrationFactory.RegisterFactory<IAsyncClassFactory>());
+            container.Register(RegistrationFactory.RegisterFactory<IAsyncClassFactory>(container));
 
             //component selector
             //container.Register(Component.For<FactoryComponentSelector, ITypedFactoryComponentSelector>());

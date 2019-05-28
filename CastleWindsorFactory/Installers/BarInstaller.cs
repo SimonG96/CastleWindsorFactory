@@ -12,7 +12,7 @@ namespace CastleWindsorFactory.Installers
             container.Register(RegistrationFactory.Register<IBar, Bar>());
 
             //factories
-            container.Register(RegistrationFactory.RegisterFactory<IBarFactory>());
+            container.Register(RegistrationFactory.RegisterFactory<IBarFactory>(container));
         }
     }
 }
