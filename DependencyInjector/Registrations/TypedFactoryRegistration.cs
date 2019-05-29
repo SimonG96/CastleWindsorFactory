@@ -14,6 +14,10 @@ using DependencyInjector.Interfaces.Registrations;
 
 namespace DependencyInjector.Registrations
 {
+    /// <summary>
+    /// The registration that is used to register an abstract typed factory
+    /// </summary>
+    /// <typeparam name="TFactory">The type of the abstract typed factory</typeparam>
     public class TypedFactoryRegistration<TFactory> : ITypedFactoryRegistration<TFactory>
     {
         private readonly IInjectorContainer _container;
@@ -28,9 +32,19 @@ namespace DependencyInjector.Registrations
             CreateFactory();
         }
 
+        /// <summary>
+        /// The name of the <see cref="TypedFactoryRegistration{TFactory}"/>
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// The Type of the abstract typed factory that is registered with this <see cref="TypedFactoryRegistration{TFactory}"/>
+        /// </summary>
         public Type InterfaceType { get; }
+
+        /// <summary>
+        /// The class that contains the implemented abstract factory of this <see cref="TypedFactoryRegistration{TFactory}"/>
+        /// </summary>
         public ITypedFactory<TFactory> Factory { get; private set; }
 
 
@@ -38,7 +52,7 @@ namespace DependencyInjector.Registrations
         /// Creates the factory from the given abstract factory type
         /// </summary>
         /// <exception cref="InvalidFactoryRegistrationException">Factory registration is invalid</exception>
-        private void CreateFactory() //TODO
+        private void CreateFactory()
         {
             var createMethods = InterfaceType.GetMethods().Where(m => m.ReturnType != typeof(void)).ToList();
             if (!createMethods.Any())
@@ -68,6 +82,7 @@ namespace DependencyInjector.Registrations
 
             foreach (var createMethod in createMethods)
             {
+                //create a method that looks like this
                 //public `createMethod.ReturnType` Create(`createMethod.GetParameters()`)
                 //{
                 //    return IInjectorContainer.Resolve(`createMethod.ReturnType`, params);

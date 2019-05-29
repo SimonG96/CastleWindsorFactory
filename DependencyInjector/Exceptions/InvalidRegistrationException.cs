@@ -6,6 +6,9 @@ using System;
 
 namespace DependencyInjector.Exceptions
 {
+    /// <summary>
+    /// The registration is not valid
+    /// </summary>
     public class InvalidRegistrationException : Exception
     {
         public InvalidRegistrationException(string message)

@@ -12,6 +12,9 @@ using DependencyInjector.Interfaces.Registrations;
 
 namespace DependencyInjector
 {
+    /// <summary>
+    /// The main container that carries all the <see cref="IRegistrationBase"/>s and can resolve all the types you'll ever want
+    /// </summary>
     public class InjectorContainer : IInjectorContainer
     {
         private readonly List<IRegistrationBase> _registrations = new List<IRegistrationBase>();
@@ -20,7 +23,7 @@ namespace DependencyInjector
         /// <summary>
         /// Install the given installers for the current <see cref="InjectorContainer"/>
         /// </summary>
-        /// <param name="installers">The given installers</param>
+        /// <param name="installers">The given <see cref="IInjectorInstaller"/>s</param>
         /// <returns>An instance of the current <see cref="InjectorContainer"/></returns>
         public IInjectorContainer Install(params IInjectorInstaller[] installers)
         {
@@ -35,7 +38,7 @@ namespace DependencyInjector
         /// <summary>
         /// Add the <see cref="IRegistrationBase"/> to the the <see cref="InjectorContainer"/>
         /// </summary>
-        /// <param name="registration">The registration</param>
+        /// <param name="registration">The given <see cref="IRegistrationBase"/></param>
         public void Register(IRegistrationBase registration)
         {
             _registrations.Add(registration);

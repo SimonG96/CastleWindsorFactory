@@ -3,10 +3,15 @@
 // Copyright(c) 2019 SimonG. All Rights Reserved.
 
 using System;
+using DependencyInjector.Interfaces;
 using DependencyInjector.Interfaces.Registrations;
 
 namespace DependencyInjector.Registrations
 {
+    /// <summary>
+    /// The default registration that is used to register a Type for the Interface it implements
+    /// </summary>
+    /// <typeparam name="TInterface">The registered Interface</typeparam>
     public class DefaultRegistration<TInterface> : IDefaultRegistration<TInterface>
     {
         public DefaultRegistration(Type interfaceType, Type implementationType, Lifestyle lifestyle)
@@ -18,12 +23,31 @@ namespace DependencyInjector.Registrations
             Name = $"{InterfaceType.Name}, {ImplementationType.Name}, Lifestyle: {Lifestyle.ToString()}";
         }
 
+        /// <summary>
+        /// The name of the <see cref="DefaultRegistration{TInterface}"/>
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// The Type of the Interface that is registered with this <see cref="DefaultRegistration{TInterface}"/>
+        /// </summary>
         public Type InterfaceType { get; }
+
+        /// <summary>
+        /// The Type that implements the <see cref="InterfaceType"/> that is registered with this <see cref="DefaultRegistration{TInterface}"/>
+        /// </summary>
         public Type ImplementationType { get; }
+
+        /// <summary>
+        /// The Lifestyle of Instances that are created with this <see cref="DefaultRegistration{TInterface}"/>
+        /// </summary>
         public Lifestyle Lifestyle { get; }
 
+
+        /// <summary>
+        /// This action is invoked when an instance of this type is created.
+        /// <para>Can be set in the <see cref="IInjectorInstaller"/> by calling <see cref="OnCreate"/></para>
+        /// </summary>
         public Action<TInterface> OnCreateAction { get; private set; }
 
 

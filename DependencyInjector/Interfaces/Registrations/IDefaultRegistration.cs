@@ -6,12 +6,26 @@ using System;
 
 namespace DependencyInjector.Interfaces.Registrations
 {
+    /// <summary>
+    /// The default registration that is used to register a Type for the Interface it implements
+    /// </summary>
+    /// <typeparam name="TInterface">The registered Interface</typeparam>
     public interface IDefaultRegistration<TInterface> : IRegistrationBase
     {
+        /// <summary>
+        /// The Type that implements the <see cref="IRegistrationBase.InterfaceType"/> that is registered with this <see cref="IDefaultRegistration{TInterface}"/>
+        /// </summary>
         Type ImplementationType { get; }
 
+        /// <summary>
+        /// The Lifestyle of Instances that are created with this <see cref="IDefaultRegistration{TInterface}"/>
+        /// </summary>
         Lifestyle Lifestyle { get; }
 
+        /// <summary>
+        /// This action is invoked when an instance of this type is created.
+        /// <para>Can be set in the <see cref="IInjectorInstaller"/> by calling <see cref="OnCreate"/></para>
+        /// </summary>
         Action<TInterface> OnCreateAction { get; }
 
         /// <summary>

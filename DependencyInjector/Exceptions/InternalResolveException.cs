@@ -3,9 +3,13 @@
 // Copyright(c) 2019 SimonG. All Rights Reserved.
 
 using System;
+using DependencyInjector.Interfaces;
 
 namespace DependencyInjector.Exceptions
 {
+    /// <summary>
+    /// An internal Error happened while the <see cref="IInjectorContainer"/> tried to resolve an instance
+    /// </summary>
     public class InternalResolveException : Exception
     {
         public InternalResolveException(string message)

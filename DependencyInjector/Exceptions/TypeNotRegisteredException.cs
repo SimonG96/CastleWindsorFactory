@@ -3,9 +3,13 @@
 // Copyright(c) 2019 SimonG. All Rights Reserved.
 
 using System;
+using DependencyInjector.Interfaces;
 
 namespace DependencyInjector.Exceptions
 {
+    /// <summary>
+    /// The Type is not registered in this <see cref="IInjectorContainer"/>
+    /// </summary>
     public class TypeNotRegisteredException : Exception
     {
         public TypeNotRegisteredException(Type type)
@@ -14,6 +18,9 @@ namespace DependencyInjector.Exceptions
             Type = type;
         }
 
+        /// <summary>
+        /// The unregistered Type
+        /// </summary>
         public Type Type { get; }
     }
 }

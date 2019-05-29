@@ -7,19 +7,22 @@ using DependencyInjector.Interfaces.Registrations;
 
 namespace DependencyInjector.Interfaces
 {
+    /// <summary>
+    /// The main container that carries all the <see cref="IRegistrationBase"/>s and can resolve all the types you'll ever want
+    /// </summary>
     public interface IInjectorContainer : IDisposable
     {
         /// <summary>
         /// Install the given installers for the current <see cref="IInjectorContainer"/>
         /// </summary>
-        /// <param name="installers">The given installers</param>
+        /// <param name="installers">The given <see cref="IInjectorInstaller"/>s</param>
         /// <returns>An instance of the current <see cref="IInjectorContainer"/></returns>
         IInjectorContainer Install(params IInjectorInstaller[] installers);
 
         /// <summary>
         /// Add the <see cref="IRegistrationBase"/> to the the <see cref="IInjectorContainer"/>
         /// </summary>
-        /// <param name="registration">The registration</param>
+        /// <param name="registration">The given <see cref="IRegistrationBase"/></param>
         void Register(IRegistrationBase registration);
 
         /// <summary>

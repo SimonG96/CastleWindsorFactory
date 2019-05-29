@@ -4,6 +4,9 @@
 
 namespace DependencyInjector.Exceptions
 {
+    /// <summary>
+    /// The registration of a Factory is not valid
+    /// </summary>
     public class InvalidFactoryRegistrationException : InvalidRegistrationException
     {
         public InvalidFactoryRegistrationException(string message)
