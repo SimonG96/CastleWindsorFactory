@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>SimonG</Authors>
+    <Description>A lightweight IOC Container</Description>
+    <Copyright>Copyright(c) 2019 SimonG. All Rights Reserved.</Copyright>
+    <NeutralLanguage />
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
