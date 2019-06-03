@@ -43,9 +43,9 @@ namespace DependencyInjector.Interfaces
         /// <summary>
         /// Gets an instance of the given type
         /// </summary>
-        /// <param name="arguments">The constructor arguments</param>
         /// <param name="type">The given type</param>
+        /// <param name="arguments">The constructor arguments</param>
         /// <returns>An instance of the given type</returns>
-        object Resolve(object[] arguments, Type type);
+        object Resolve(object type, object arguments);
     }
 }

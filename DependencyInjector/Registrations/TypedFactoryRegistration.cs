@@ -118,7 +118,7 @@ namespace DependencyInjector.Registrations
                     generator.Emit(OpCodes.Ldc_I4_0);
                 }
 
-                generator.EmitCall(OpCodes.Callvirt, typeof(IInjectorContainer).GetMethod(nameof(IInjectorContainer.Resolve), new[] { typeof(object[]), typeof(Type) }), null);
+                generator.EmitCall(OpCodes.Callvirt, typeof(IInjectorContainer).GetMethod(nameof(IInjectorContainer.Resolve), new[] { typeof(object), typeof(object)}), null);
                 generator.Emit(OpCodes.Ret);
             }
 

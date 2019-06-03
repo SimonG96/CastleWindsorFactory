@@ -68,19 +68,33 @@ namespace DependencyInjector
         /// <summary>
         /// Gets an instance of the given type
         /// </summary>
-        /// <param name="arguments">The constructor arguments</param>
         /// <param name="type">The given type</param>
+        /// <param name="arguments">The constructor arguments</param>
         /// <returns>An instance of the given type</returns>
         /// <exception cref="InternalResolveException">Could not find function <see cref="ResolveInternal{T}"/></exception>
-        public object Resolve(object[] arguments, Type type)
+        public object Resolve(object type, object arguments) //somehow the order of the arguments is different in the application compared to the unit test
         {
+            Type realType;
+            object[] realArguments;
+
+            if (type == null || type.GetType().IsArray)
+            {
+                realType = (Type) arguments;
+                realArguments = (object[]) type;
+            }
+            else
+            {
+                realType = (Type) type;
+                realArguments = (object[]) arguments;
+            }
+
             var resolveMethod = typeof(InjectorContainer).GetMethod(nameof(ResolveInternal), BindingFlags.NonPublic | BindingFlags.Instance);
-            var genericResolveMethod = resolveMethod?.MakeGenericMethod(type);
+            var genericResolveMethod = resolveMethod?.MakeGenericMethod(realType);
 
             if (genericResolveMethod == null)
                 throw new InternalResolveException($"Could not find function {nameof(ResolveInternal)}");
 
-            return genericResolveMethod.Invoke(this, new object[] {arguments});
+            return genericResolveMethod.Invoke(this, new object[] {realArguments});
         }
 
         /// <summary>
@@ -181,7 +195,7 @@ namespace DependencyInjector
                         }
 
                         if (fittingArgument == null)
-                            ctorParams.Add(Resolve(null, parameter.ParameterType));
+                            ctorParams.Add(Resolve(parameter.ParameterType, null));
                         else
                             ctorParams.Add(fittingArgument);
                     }
