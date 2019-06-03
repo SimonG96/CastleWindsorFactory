@@ -62,7 +62,7 @@ namespace DependencyInjector
         /// <returns>An instance of the given type</returns>
         public T Resolve<T>(params object[] arguments)
         {
-            return ResolveInternal<T>(arguments.ToList());
+            return ResolveInternal<T>(arguments);
         }
 
         /// <summary>
