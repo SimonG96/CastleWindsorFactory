@@ -11,7 +11,7 @@ namespace Test.DependencyInjector
     public class InjectorContainerTest
     {
         #region TestClasses
-        //some classes have to be public to be able to implement the factory
+        //some of the test classes have to be public to allow the implementation of the factory
 
         public interface ITest
         {
